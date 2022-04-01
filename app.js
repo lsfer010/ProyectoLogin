@@ -63,6 +63,9 @@ app.post('/register', async (req, res) => {
                 ruta:'register'
             });
         } else {
+            //NOTA: al registrarse automáticamente inicia sesión, como lo haría un sistema normalmente.
+            req.session.loggedin = true; //Ayuda para autenticar en las demás páginas.
+            req.session.name = user; //ponemos una variable de sesión para ver el usuario que se autenticó.
             res.render('register', {
                 alert: true,
                 alertTitle: "Registration",
