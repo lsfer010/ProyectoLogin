@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resources/css/style.css">
+    <title>Register</title>
+</head>
+<body>
+    <div class="register-form">
+        <h1>Registration Page</h1>
+        <form action="register" method="post">
+            <div class="inputs-register">
+                <label for="user">User:</label>
+                <input type="text" name="user" id="input-r-user" class="input-r-user" required>
+                <label for="name">Full Name:</label>
+                <input type="text" name="name" id="input-r-name" class="input-r-name" required>
+                <label for="rol">Role:</label>
+                <select name="rol" id="input-r-rol" class="select-r-rol">
+                    <option value="admin">Administrator</option>
+                    <option value="data entry">Data Entry</option>
+                </select>
+                <label for="pass">Password:</label>
+                <input type="password" name="pass" id="input-r-pass" class="input-r-register" required>
+            </div>
+            <div class="btns-register">
+                <input type="submit" value="Save" class="btn-r-register">
+                <a href="/" class="btn-r-cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>  <!-- SWEETALERT para mostrar confirmación de usuario registrado. -->
+
+    <% if(typeof alert != "undefined") { %>
+        <script>
+            Swal.fire({
+                title: '<%= alertTitle %>',
+                text: '<%= alertMessage %>',
+                icon: '<%= alertIcon %>',
+                showConfirmButton: <%= showConfirmButton %>,
+                timer: <%= timer %>
+            }).then(()=>{
+                window.location='/<%= ruta %>' //ESTO REDIRIGE A INDEX DESPUÉS DE HABER MOSTRADO EL MENSAJE.
+            })
+        </script>
+    <% } %>
+</body>
+</html>

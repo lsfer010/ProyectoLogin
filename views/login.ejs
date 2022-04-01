@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="resources/css/style.css">
+</head>
+<body>
+    <div class="login-form">
+        <h1>Login with NodeJS</h1>
+        <form action="/auth" method="post">
+            <input type="text" name="user" id="user" class="input-login" placeholder="User" required>
+            <input type="password" name="pass" id="pass" class="input-l-login" placeholder="Password" required>
+            <div class="btns-login">
+                <input type="submit" value="Log In" class="btn-l-login">
+                <a href="register" class="btn-l-register">Register</a>
+            </div>    
+        </form>
+    </div>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>  <!-- SWEETALERT para mostrar confirmación de usuario registrado. -->
+
+    <% if(typeof alert != "undefined") { %>
+        <script>
+            Swal.fire({
+                title: '<%= alertTitle %>',
+                text: '<%= alertMessage %>',
+                icon: '<%= alertIcon %>',
+                showConfirmButton: <%= showConfirmButton %>,
+                timer: <%= timer %>
+            }).then(()=>{
+                window.location='/<%= ruta %>' //ESTO REDIRIGE A INDEX DESPUÉS DE HABER MOSTRADO EL MENSAJE.
+            })
+        </script>
+    <% } %>
+
+</body>
+</html>
