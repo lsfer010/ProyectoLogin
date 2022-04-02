@@ -50,34 +50,47 @@ app.post('/register', async (req, res) => {
     const rol = req.body.rol;
     const pass = req.body.pass;
     let passwordHash = await bcryptjs.hash(pass, 8);
-    connection.query('INSERT INTO users SET ? ', {user:user, name:name, rol:rol, pass:passwordHash}, async (error, results) => {
-        if(error) {
-            console.log('¡Ocurrio un error al registrar el usuario! : ' + error);
+    connection.query('SELECT user FROM users WHERE user = ?', [user], async (error, results) => {
+        if(typeof results[0] !== "undefined") {
             res.render('register', {
                 alert: true,
                 alertTitle: "Ooops!",
-                alertMessage:"Something went wrong!",
+                alertMessage:"The user that you entered already exist! Please choose another one",
                 alertIcon: "error",
-                showConfirmButton:false,
-                timer:1500,
+                showConfirmButton:true,
+                timer:false,
                 ruta:'register'
             });
         } else {
-            //NOTA: al registrarse automáticamente inicia sesión, como lo haría un sistema normalmente.
-            req.session.loggedin = true; //Ayuda para autenticar en las demás páginas.
-            req.session.name = user; //ponemos una variable de sesión para ver el usuario que se autenticó.
-            res.render('register', {
-                alert: true,
-                alertTitle: "Registration",
-                alertMessage:"Successful Registration!",
-                alertIcon: "success",
-                showConfirmButton:false,
-                timer:1500,
-                ruta:''
+            connection.query('INSERT INTO users SET ? ', {user:user, name:name, rol:rol, pass:passwordHash}, async (error, results) => {
+                if(error) {
+                    console.log('¡Ocurrio un error al registrar el usuario! : ' + error);
+                    res.render('register', {
+                        alert: true,
+                        alertTitle: "Ooops!",
+                        alertMessage:"Something went wrong!",
+                        alertIcon: "error",
+                        showConfirmButton:true,
+                        timer:false,
+                        ruta:'register'
+                    });
+                } else {
+                    //NOTA: al registrarse automáticamente inicia sesión, como lo haría un sistema normalmente.
+                    req.session.loggedin = true; //Ayuda para autenticar en las demás páginas.
+                    req.session.name = user; //ponemos una variable de sesión para ver el usuario que se autenticó.
+                    res.render('register', {
+                        alert: true,
+                        alertTitle: "Registration",
+                        alertMessage:"Successful Registration!",
+                        alertIcon: "success",
+                        showConfirmButton:false,
+                        timer:1500,
+                        ruta:''
+                    });
+                }
             });
-        }
-    });
-
+        } 
+    });   
 });
 
 //11 - Autenticación
