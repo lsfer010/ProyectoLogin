@@ -49,6 +49,7 @@ app.post('/register', async (req, res) => {
     const name = req.body.name;
     const rol = req.body.rol;
     const pass = req.body.pass;
+    const pass2 = req.body.pass2;
     let passwordHash = await bcryptjs.hash(pass, 8);
     connection.query('SELECT user FROM users WHERE user = ?', [user], async (error, results) => {
         if(typeof results[0] !== "undefined") {
@@ -59,8 +60,26 @@ app.post('/register', async (req, res) => {
                 alertIcon: "error",
                 showConfirmButton:true,
                 timer:false,
-                ruta:'register'
+                success:false,
+                ruta: 'register',
+                user: user,
+                name: name,
+                rol: rol
             });
+        } else if (pass != pass2) {
+            res.render('register', {
+                alert: true,
+                alertTitle: "Ooops!",
+                alertMessage:"The two passwords entered are not the same! Please check",
+                alertIcon: "error",
+                showConfirmButton:true,
+                timer:false,
+                success:false,
+                ruta: 'register',
+                user: user,
+                name: name,
+                rol: rol
+            });   
         } else {
             connection.query('INSERT INTO users SET ? ', {user:user, name:name, rol:rol, pass:passwordHash}, async (error, results) => {
                 if(error) {
@@ -72,7 +91,11 @@ app.post('/register', async (req, res) => {
                         alertIcon: "error",
                         showConfirmButton:true,
                         timer:false,
-                        ruta:'register'
+                        success: false,
+                        ruta: 'register',
+                        user: user,
+                        name: name,
+                        rol: rol
                     });
                 } else {
                     //NOTA: al registrarse automáticamente inicia sesión, como lo haría un sistema normalmente.
@@ -85,6 +108,7 @@ app.post('/register', async (req, res) => {
                         alertIcon: "success",
                         showConfirmButton:false,
                         timer:1500,
+                        success: true,
                         ruta:''
                     });
                 }

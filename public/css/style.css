@@ -157,3 +157,22 @@ body {
 .btns-register a:hover,  .btns-register a:active{
     background-color: rgb(119, 11, 11);
 }
+
+/* SECCIÓN INDEX de index.ejs */
+.btn-index {
+    border: 0px;
+    margin: 5px 0 0 0;
+    padding: 0.5rem 2.5rem;
+    font-size: 1.2rem;
+    color: white;
+    background-color: rgb(13, 66, 163);
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+.btn-index:hover,  .btn-index:active{
+    background-color: rgb(11, 12, 117);
+}

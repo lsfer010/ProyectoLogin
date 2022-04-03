@@ -23,6 +23,8 @@
                 </select>
                 <label for="pass">Password:</label>
                 <input type="password" name="pass" id="input-r-pass" class="input-r-register" required>
+                <label for="pass">Password Again:</label>
+                <input type="password" name="pass2" id="input-r-pass-2" class="input-r-register" required>
             </div>
             <div class="btns-register">
                 <input type="submit" value="Save" class="btn-r-register">
@@ -41,9 +43,25 @@
                 showConfirmButton: <%= showConfirmButton %>,
                 timer: <%= timer %>
             }).then(()=>{
-                window.location='/<%= ruta %>' //ESTO REDIRIGE A INDEX DESPUÉS DE HABER MOSTRADO EL MENSAJE.
-            })
+                if (<%= success %>) {
+                    window.location='/<%= ruta %>' //ESTO REDIRIGE A LA RUTA QUE SE MANDA DESPUÉS DE HABER MOSTRADO EL MENSAJE (INDEX SI EL REGISTRO NO TUVO INCONVENIENTES O A REGISTER SI HUBO ALGUN PROBLEMA).
+                }   
+            });
+
         </script>
+
+        <% if(typeof user !== "undefined") { %>
+            <script>
+                //Volver a poner datos para que el usuario no los vuelva a escribir.
+                let input_user = document.getElementById("input-r-user");
+                input_user.value = '<%= user %>';
+                let input_name = document.getElementById("input-r-name");
+                input_name.value = '<%= name %>';
+                let input_rol = document.getElementById("input-r-rol");
+                input_rol.value = '<%= rol %>';
+            </script>
+        <% } %>
     <% } %>
+
 </body>
 </html>
